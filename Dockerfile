@@ -30,12 +30,22 @@ RUN cat <<EOF > /app/config.json
   },
   "server": {
     "hostname": "0.0.0.0",
-    "port": 3000,
+    "port": 8787,
     "baseURL": "\${BASE_URL}"
   },
   "proxy": "",
   "mode": "webhook"
 }
+EOF
+
+# Create well-formatted wrangler.toml
+RUN cat <<EOF > /app/wrangler.toml
+name = 'chatgpt-telegram-workers'
+workers_dev = true
+compatibility_date = "2024-11-11"
+compatibility_flags = ["nodejs_compat_v2"]
+# Deploy dist
+main = './dist/index.js'
 EOF
 
 RUN npm install
