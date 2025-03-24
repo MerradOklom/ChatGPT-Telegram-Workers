@@ -27,7 +27,7 @@ RUN cat <<EOF > /app/config.json
   },
   "server": {
     "hostname": "0.0.0.0",
-    "port": 3000,
+    "port": 8787,
     "baseURL": ""
   },
   "proxy": "",
