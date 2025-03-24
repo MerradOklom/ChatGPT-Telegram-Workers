@@ -17,49 +17,11 @@ WORKDIR /app
 
 COPY --from=build /app/packages/apps/local/dist/index.js /app/dist/index.js
 COPY --from=build /app/packages/apps/local/package-docker.json /app/package.json
+# Copy the Bash script into the container
+COPY create-configs.sh /app/create-configs.sh
 
-# Create well-formatted config.json with baseURL from environment variable
-RUN cat <<EOF > /app/config.json
-{
-  "database": {
-    "type": "local",
-    "path": "/app/data.json"
-  },
-  "server": {
-    "hostname": "0.0.0.0",
-    "port": 8787,
-    "baseURL": ""
-  },
-  "proxy": "",
-  "mode": "webhook"
-}
-EOF
-
-# Create well-formatted wrangler.toml with environment variables
-RUN cat <<EOF > /app/wrangler.toml
-name = 'chatgpt-telegram-workers'
-workers_dev = true
-compatibility_date = "2024-11-11"
-compatibility_flags = ["nodejs_compat_v2"]
-# Deploy dist
-main = './dist/index.js'
-
-[vars]
-AI_IMAGE_PROVIDER = "\${AI_IMAGE_PROVIDER}"
-AI_PROVIDER = "\${AI_PROVIDER}"
-BASE_URL = "\${BASE_URL}"
-CHAT_GROUP_WHITE_LIST = "\${CHAT_GROUP_WHITE_LIST}"
-CHAT_WHITE_LIST = "\${CHAT_WHITE_LIST}"
-DEBUG_MODE = "\${DEBUG_MODE}"
-DEV_MODE = "\${DEV_MODE}"
-EXTRA_MESSAGE_CONTEXT = "\${EXTRA_MESSAGE_CONTEXT}"
-LANGUAGE = "\${LANGUAGE}"
-OPENAI_API_BASE = "\${OPENAI_API_BASE}"
-OPENAI_API_KEY = "\${OPENAI_API_KEY}"
-TELEGRAM_AVAILABLE_TOKENS = "\${TELEGRAM_AVAILABLE_TOKENS}"
-TELEGRAM_BOT_NAME = "\${TELEGRAM_BOT_NAME}"
-TZ = "\${TZ}"
-EOF
+# Ensure the script is executable and run it
+RUN chmod +x /app/create-configs.sh && /app/create-configs.sh
 
 RUN npm install
 EXPOSE 8787
