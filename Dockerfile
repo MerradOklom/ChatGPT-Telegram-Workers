@@ -18,6 +18,23 @@ WORKDIR /app
 COPY --from=build /app/packages/apps/local/dist/index.js /app/dist/index.js
 COPY --from=build /app/packages/apps/local/package-docker.json /app/package.json
 
+# Create well-formatted config.json
+RUN cat <<EOF > /app/config.json
+{
+  "database": {
+    "type": "local",
+    "path": "/app/data.json"
+  },
+  "server": {
+    "hostname": "0.0.0.0",
+    "port": 8787,
+    "baseURL": ""
+  },
+  "proxy": "",
+  "mode": "webhook"
+}
+EOF
+
 RUN npm install
 EXPOSE 8787
 
