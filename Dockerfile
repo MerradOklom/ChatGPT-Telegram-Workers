@@ -20,10 +20,11 @@ COPY --from=build /app/packages/apps/local/package-docker.json /app/package.json
 # Copy the Bash script into the container
 COPY create-configs.sh /app/create-configs.sh
 
-# Ensure the script is executable and run it
-RUN chmod +x /app/create-configs.sh && /app/create-configs.sh
+# Ensure the script is executable
+RUN chmod +x /app/create-configs.sh
 
 RUN npm install
 EXPOSE 8787
 
-CMD ["node", "/app/dist/index.js"]
+# Run the script at runtime before starting the application
+CMD ["/bin/bash", "-c", "/app/create-configs.sh && node /app/dist/index.js"]
