@@ -18,7 +18,10 @@ WORKDIR /app
 COPY --from=build /app/packages/apps/local/dist/index.js /app/dist/index.js
 COPY --from=build /app/packages/apps/local/package-docker.json /app/package.json
 
-# Create well-formatted config.json
+# Define default environment variable for baseURL (empty string if not set)
+ENV BASE_URL=""
+
+# Create well-formatted config.json with baseURL from environment variable
 RUN cat <<EOF > /app/config.json
 {
   "database": {
@@ -27,8 +30,8 @@ RUN cat <<EOF > /app/config.json
   },
   "server": {
     "hostname": "0.0.0.0",
-    "port": 8787,
-    "baseURL": ""
+    "port": 3000,
+    "baseURL": "\${BASE_URL}"
   },
   "proxy": "",
   "mode": "webhook"
