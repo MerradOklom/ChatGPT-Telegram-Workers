@@ -4,7 +4,7 @@
 cat <<EOF > /app/config.json
 {
   "database": {
-    "type": "redis",
+    "type": "memory",
     "path": ""
   },
   "server": {
@@ -42,6 +42,4 @@ TELEGRAM_BOT_NAME = "${TELEGRAM_BOT_NAME}"
 TZ = "${TZ}"
 MAX_TOKEN_LENGTH = "${MAX_TOKEN_LENGTH}"
 STREAM_MODE = "${STREAM_MODE}"
-UPSTASH_REDIS_REST_URL = "${UPSTASH_REDIS_REST_URL}"
-UPSTASH_REDIS_REST_TOKEN = "${UPSTASH_REDIS_REST_TOKEN}"
 EOF
