@@ -29,7 +29,6 @@ main = './dist/index.js'   # Default use of dist/index.js
 [vars]
 AI_IMAGE_PROVIDER = "${AI_IMAGE_PROVIDER}"
 AI_PROVIDER = "${AI_PROVIDER}"
-BASE_URL = "${BASE_URL}"
 CHAT_GROUP_WHITE_LIST = "${CHAT_GROUP_WHITE_LIST}"
 CHAT_WHITE_LIST = "${CHAT_WHITE_LIST}"
 DEBUG_MODE = "${DEBUG_MODE}"
